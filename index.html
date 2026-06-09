@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>La Casa Pizza Alénya — Menu</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --red: #E8281A;
+  --red-soft: #FFF0EF;
+  --dark: #1A1A1A;
+  --mid: #666;
+  --light: #F7F5F2;
+  --white: #FFFFFF;
+  --border: #EDEBE8;
+  --radius: 16px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--light);
+  color: var(--dark);
+  min-height: 100vh;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+/* LANGUAGE SELECTOR */
+#lang-screen {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 24px;
+  background: linear-gradient(160deg, #1A1A1A 0%, #2D1810 60%, #1A1A1A 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+#lang-screen::before {
+  content: '🍕';
+  position: absolute;
+  font-size: 320px;
+  opacity: 0.04;
+  top: -60px;
+  right: -80px;
+  transform: rotate(20deg);
+  pointer-events: none;
+}
+
+.lang-logo {
+  width: 80px;
+  height: 80px;
+  background: var(--red);
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  margin-bottom: 16px;
+  box-shadow: 0 12px 40px rgba(232,40,26,0.4);
+  animation: pop 0.6s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+
+@keyframes pop {
+  from { transform: scale(0.5); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.lang-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  color: white;
+  text-align: center;
+  margin-bottom: 4px;
+  animation: fadeUp 0.5s ease 0.2s both;
+}
+
+.lang-sub {
+  font-size: 12px;
+  color: rgba(255,255,255,0.45);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 40px;
+  animation: fadeUp 0.5s ease 0.3s both;
+}
+
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(12px); }
+  to { opacity:1; transform:translateY(0); }
+}
+
+.lang-prompt {
+  font-size: 13px;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 20px;
+  letter-spacing: 0.5px;
+  animation: fadeUp 0.5s ease 0.4s both;
+}
+
+.lang-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+  width: 100%;
+  max-width: 340px;
+  animation: fadeUp 0.5s ease 0.5s both;
+}
+
+.lang-btn {
+  background: rgba(255,255,255,0.07);
+  border: 1.5px solid rgba(255,255,255,0.12);
+  border-radius: 16px;
+  padding: 16px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: white;
+}
+
+.lang-btn:hover, .lang-btn:active {
+  background: rgba(232,40,26,0.25);
+  border-color: var(--red);
+  transform: scale(0.97);
+}
+
+.lang-flag { font-size: 32px; line-height: 1; }
+.lang-name { font-size: 11px; font-weight: 600; letter-spacing: 0.5px; opacity: 0.85; }
+
+/* MENU PAGE */
+#menu-page { display: none; animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+
+.menu-header {
+  background: linear-gradient(145deg, #1A1A1A 0%, #2D1810 100%);
+  padding: 40px 20px 28px;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.menu-header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.back-btn {
+  background: rgba(255,255,255,0.1);
+  border: none;
+  color: white;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.back-btn:active { transform: scale(0.93); }
+
+.menu-header-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  color: white;
+  text-align: center;
+  flex: 1;
+}
+
+.current-flag { font-size: 24px; }
+
+/* LANG SWITCHER IN HEADER */
+.lang-switcher {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+  scrollbar-width: none;
+}
+.lang-switcher::-webkit-scrollbar { display: none; }
+
+.lang-pill {
+  background: rgba(255,255,255,0.08);
+  border: 1.5px solid rgba(255,255,255,0.15);
+  border-radius: 20px;
+  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.lang-pill.active {
+  background: var(--red);
+  border-color: var(--red);
+}
+
+.lang-pill-flag { font-size: 14px; }
+.lang-pill-name { font-size: 10px; font-weight: 600; color: white; letter-spacing: 0.3px; }
+
+/* MENU CONTENT */
+.menu-content { padding: 0 0 40px; }
+
+/* CATEGORY */
+.category {
+  margin-bottom: 8px;
+}
+
+.cat-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 20px 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.cat-emoji { font-size: 22px; }
+
+.cat-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  color: var(--dark);
+  flex: 1;
+}
+
+.cat-toggle {
+  color: var(--mid);
+  font-size: 18px;
+  transition: transform 0.3s;
+}
+
+.cat-toggle.open { transform: rotate(180deg); }
+
+.cat-divider {
+  height: 2px;
+  background: linear-gradient(to right, var(--red), transparent);
+  margin: 0 20px 12px;
+  border-radius: 2px;
+}
+
+.cat-items {
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+
+/* ITEM */
+.menu-item {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  background: var(--white);
+  margin: 0 12px 4px;
+  border-radius: var(--radius);
+}
+
+.item-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.item-name {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 16px;
+  color: var(--dark);
+  flex: 1;
+}
+
+.item-price {
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--red);
+  white-space: nowrap;
+  padding-top: 2px;
+}
+
+.item-desc {
+  font-size: 12px;
+  color: var(--mid);
+  line-height: 1.5;
+}
+
+/* SIZES ROW */
+.sizes-row {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.size-tag {
+  background: var(--light);
+  border-radius: 8px;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--dark);
+}
+
+.size-tag span { color: var(--red); }
+
+/* SUPPLEMENT */
+.supplement-note {
+  background: var(--red-soft);
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin: 0 12px 8px;
+  font-size: 12px;
+  color: var(--red);
+  font-weight: 500;
+}
+
+/* SECTION SPACER */
+.section-note {
+  padding: 12px 20px 4px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--mid);
+}
+</style>
+</head>
+<body>
+
+<!-- LANGUAGE SELECTION SCREEN -->
+<div id="lang-screen">
+  <div class="lang-logo">🍕</div>
+  <div class="lang-title">La Casa Pizza</div>
+  <div class="lang-sub">Alénya · Four à bois</div>
+  <div class="lang-prompt">Choisissez votre langue / Choose your language</div>
+  <div class="lang-grid">
+    <div class="lang-btn" onclick="setLang('fr')">
+      <div class="lang-flag">🇫🇷</div>
+      <div class="lang-name">Français</div>
+    </div>
+    <div class="lang-btn" onclick="setLang('en')">
+      <div class="lang-flag">🇬🇧</div>
+      <div class="lang-name">English</div>
+    </div>
+    <div class="lang-btn" onclick="setLang('es')">
+      <div class="lang-flag">🇪🇸</div>
+      <div class="lang-name">Español</div>
+    </div>
+    <div class="lang-btn" onclick="setLang('de')">
+      <div class="lang-flag">🇩🇪</div>
+      <div class="lang-name">Deutsch</div>
+    </div>
+    <div class="lang-btn" onclick="setLang('it')">
+      <div class="lang-flag">🇮🇹</div>
+      <div class="lang-name">Italiano</div>
+    </div>
+    <div class="lang-btn" onclick="setLang('nl')">
+      <div class="lang-flag">🇳🇱</div>
+      <div class="lang-name">Nederlands</div>
+    </div>
+  </div>
+</div>
+
+<!-- MENU PAGE -->
+<div id="menu-page">
+  <div class="menu-header">
+    <div class="menu-header-top">
+      <button class="back-btn" onclick="goBack()">←</button>
+      <div class="menu-header-name">La Casa Pizza Alénya</div>
+      <div class="current-flag" id="current-flag">🇫🇷</div>
+    </div>
+    <div class="lang-switcher" id="lang-switcher"></div>
+  </div>
+  <div class="menu-content" id="menu-content"></div>
+</div>
+
+<script>
+const LANGS = {
+  fr: { flag:'🇫🇷', name:'Français' },
+  en: { flag:'🇬🇧', name:'English' },
+  es: { flag:'🇪🇸', name:'Español' },
+  de: { flag:'🇩🇪', name:'Deutsch' },
+  it: { flag:'🇮🇹', name:'Italiano' },
+  nl: { flag:'🇳🇱', name:'Nederlands' },
+};
+
+const MENU = {
+  fr: {
+    starters: {
+      emoji: '🫒', title: 'Nos Petites Entrées',
+      items: [
+        { name: 'Tapenade d\'olives maison', price: '5,00 €', desc: '' },
+        { name: 'Focaccia maison à partager', price: '6,00 €', desc: '' },
+        { name: 'Bol Méditerranéen', price: '6,50 €', desc: 'Lit de roquette, tomates fraîches, cubes de mozzarella, pesto basilic, parmesan' },
+        { name: 'Mini Pizzas Apéritives', price: '5,50 €', desc: 'Sauce tomate ou crème aïoli ou pesto basilic' },
+      ]
+    },
+    classics: {
+      emoji: '🍕', title: 'Les Classiques',
+      supplement: true,
+      items: [
+        { name: 'Bianca', sizes: ['13,00','16,00','20,00'], desc: 'Crème fraîche, mozzarella, taleggio, provolone, scamorza fumée, olives, origan' },
+        { name: 'Calzone', sizes: ['11,50','14,00','17,50'], desc: 'Sauce tomate, emmental, mozzarella, jambon, champignons frais, œuf' },
+        { name: 'Capricciosa', sizes: ['11,00','13,50','17,00'], desc: 'Sauce tomate, emmental, mozzarella, jambon, artichauts, olives, origan' },
+        { name: 'Cinq Fromages', sizes: ['13,00','15,50','19,50'], desc: 'Sauce tomate, emmental, mozzarella, chèvre, provolone, reblochon, olives, origan' },
+        { name: 'Carbo\'', sizes: ['13,50','16,50','21,00'], desc: 'Crème fraîche, emmental, mozzarella, linguines fraîches, reblochon, oignons, lardons, œuf, olives, origan' },
+        { name: 'Épicurienne', sizes: ['14,00','17,00','21,50'], desc: 'Sauce tomate, emmental, mozzarella, effiloché de bœuf, blanc de poulet, chorizo, huile d\'ail, origan, olives' },
+        { name: 'Galizza', sizes: ['13,50','16,50','21,00'], desc: 'Crème fraîche, emmental, mozzarella, blanc de poulet, lardons, reblochon, œuf, huile d\'ail, origan' },
+        { name: 'Margherita', sizes: ['9,50','11,00','13,50'], desc: 'Sauce tomate, emmental, mozzarella, olives, origan' },
+        { name: 'Miss Pizza', sizes: ['13,50','16,50','21,00'], desc: 'Sauce tomate, emmental, mozzarella, jambon, champignons, chèvre, provolone, bacon fumé, olives, origan' },
+        { name: 'Pizzaiola', sizes: ['12,50','15,00','19,00'], desc: 'Crème aïoli, emmental, mozzarella, chorizo, champignons frais, olives, origan' },
+        { name: 'Provençale', sizes: ['10,50','12,50','15,50'], desc: 'Sauce tomate, champignons frais, oignons frais, tomates fraîches, poivrons grillés, olives, herbes de Provence' },
+        { name: 'Quatre Saisons', sizes: ['11,00','13,00','16,50'], desc: 'Sauce tomate, emmental, mozzarella, artichauts, tomates fraîches, champignons frais, olives, basilic' },
+        { name: 'Regina', sizes: ['11,00','13,50','17,00'], desc: 'Sauce tomate, emmental, mozzarella, jambon, champignons frais, olives, origan' },
+        { name: 'Romana', sizes: ['11,00','13,50','17,00'], desc: 'Sauce tomate, emmental, mozzarella, jambon, olives, origan' },
+        { name: 'Veggie', sizes: ['11,50','14,00','17,50'], desc: 'Sauce tomate, emmental, mozzarella, aubergine, champignons frais, oignons caramélisés, poivrons grillés, huile d\'ail, olives, origan' },
+      ]
+    },
+    voyages: {
+      emoji: '✈️', title: 'Les Voyages',
+      supplement: true,
+      items: [
+        { name: 'Alsacienne', sizes: ['11,00','13,50','17,00'], desc: 'Crème fraîche, emmental, mozzarella, bacon fumé, oignons caramélisés, olives, origan' },
+        { name: 'Andalouse', sizes: ['12,00','14,50','18,50'], desc: 'Sauce tomate, emmental, mozzarella, chorizo, poivrons grillés, huile d\'ail, olives, origan' },
+        { name: 'Arménienne', sizes: ['12,50','15,00','19,00'], desc: 'Sauce tomate, emmental, mozzarella, effiloché de bœuf, oignons caramélisés, poivrons grillés, huile d\'ail, olives, origan' },
+        { name: 'Basquaise', sizes: ['13,00','15,50','19,50'], desc: 'Sauce tomate, emmental, mozzarella, poulet, oignons caramélisés, poivrons grillés, champignons frais, huile d\'ail, olives, origan' },
+        { name: 'Catalane', sizes: ['13,00','15,50','19,50'], desc: 'Sauce tomate, emmental, mozzarella, saucisse catalane, poivrons grillés, olives, origan' },
+        { name: 'Gersoise', sizes: ['13,00','16,00','20,00'], desc: 'Crème fraîche, emmental, mozzarella, magret de canard séché, figues sèches, pommes de terre, vinaigre balsamique, olives, origan' },
+        { name: 'Indienne', sizes: ['13,00','15,50','19,50'], desc: 'Crème curry, emmental, mozzarella, poulet, bacon fumé, pommes de terre, oignons frits, olives, origan' },
+        { name: 'Italienne', sizes: ['13,00','15,50','19,50'], desc: 'Sauce tomate, emmental, mozzarella, jambon serrano, tomates fraîches, copeaux de parmesan, roquette, vinaigre balsamique, herbes de Provence' },
+        { name: 'Orientale', sizes: ['12,00','14,50','18,50'], desc: 'Sauce tomate, emmental, mozzarella, merguez, oignons caramélisés, poivrons grillés, olives, cumin' },
+        { name: 'Stambouliote', sizes: ['12,50','15,00','19,00'], desc: 'Crème fraîche, emmental, mozzarella, viande à kebab, sauce blanche, oignons frits, olives' },
+      ]
+    },
+    mountains: {
+      emoji: '🏔️', title: 'Les Montagnes',
+      supplement: true,
+      items: [
+        { name: 'Chevrette', sizes: ['12,00','14,50','18,50'], desc: 'Crème fraîche, emmental, mozzarella, chèvre, miel, amandes bio, olives, origan' },
+        { name: 'Montagnarde', sizes: ['12,50','15,00','19,00'], desc: 'Crème fraîche, emmental, mozzarella, jambon serrano, reblochon, olives, origan' },
+        { name: 'Rustique', sizes: ['11,50','14,00','17,50'], desc: 'Crème fraîche, emmental, mozzarella, jambon, champignons frais, camembert, olives, origan' },
+        { name: 'Tartif\'', sizes: ['13,00','16,00','20,00'], desc: 'Crème fraîche, emmental, mozzarella, pommes de terre, oignons caramélisés, lardons fumés, reblochon, olives, origan' },
+      ]
+    },
+    maritime: {
+      emoji: '🌊', title: 'Les Maritimes',
+      supplement: true,
+      items: [
+        { name: 'Collioure', sizes: ['12,50','15,00','19,00'], desc: 'Sauce tomate, emmental, mozzarella, filets d\'anchois, poivrons grillés, huile d\'ail, olives, origan' },
+        { name: 'Neptune', sizes: ['11,50','14,00','17,50'], desc: 'Sauce tomate, emmental, mozzarella, thon émietté, huile d\'ail, olives, origan' },
+        { name: 'Nordique', sizes: ['13,00','15,50','19,50'], desc: 'Crème fraîche, emmental, mozzarella, saumon fumé, olives, basilic' },
+      ]
+    },
+    kids: {
+      emoji: '👶', title: 'La Casa Kids (- de 12 ans)',
+      items: [
+        { name: 'Menu Enfant', price: '10,00 €', desc: 'Pizza 26 cm (Regina, Romana ou Margherita) + 1 Capri-Sun (20cl) + 1 Gourde de fruits' },
+      ]
+    },
+    panipizzas: {
+      emoji: '🥪', title: 'Panipizzas (Panini / Pâte à pizza)',
+      items: [
+        { name: 'Cannibale', price: '11,50 €', desc: 'Sauce tomate, emmental, mozzarella, jambon, blanc de poulet, oignons frits, origan' },
+        { name: 'Principessa', price: '10,00 €', desc: 'Sauce tomate, emmental, mozzarella, jambon, olives, origan' },
+        { name: 'Scandinave', price: '11,50 €', desc: 'Crème fraîche, emmental, mozzarella, saumon fumé, huile d\'ail, origan' },
+        { name: 'Savoyarde', price: '10,50 €', desc: 'Crème fraîche, emmental, mozzarella, lardons fumés, oignons caramélisés, reblochon' },
+        { name: 'Serrano', price: '11,00 €', desc: 'Sauce tomate, emmental, mozzarella, jambon serrano, chèvre, huile d\'ail, herbes de Provence' },
+        { name: '4 Fromages', price: '11,00 €', desc: 'Sauce tomate, emmental, mozzarella, chèvre, provolone' },
+      ]
+    },
+    empanapizzas: {
+      emoji: '🥟', title: 'Empanapizzas (Empanadas / Pâte à pizza)',
+      note: 'Servies avec une petite salade verte',
+      items: [
+        { name: 'La Criolla', price: '12,50 €', desc: 'Sauce chimichurri, bœuf haché, oignons caramélisés, poivron rouge, olives noires, œufs brouillés, fromage râpé, cumin, paprika, oignons frits' },
+        { name: 'La Pampas', price: '12,50 €', desc: 'Crème fraîche, poulet rôti, oignons caramélisés, poivron rouge, raisins secs, fromage râpé, amandes grillées, Jalapeños (en option)' },
+        { name: 'La Tierra Verde', price: '11,50 €', desc: 'Sauce pesto, chèvre émietté, courgette, champignons, oignons caramélisés, tomates fraîches, fromage râpé, graines de tournesol' },
+        { name: 'La Patagonia', price: '12,00 €', desc: 'Sauce tomate, chorizo, pommes de terre, oignons caramélisés, fromage râpé, scamorza fumée' },
+        { name: 'La Mar Azul', price: '12,50 €', desc: 'Sauce tomate, thon émietté, œufs brouillés, fromage râpé, olives noires, filet de crème citron, câpres' },
+      ]
+    },
+    desserts: {
+      emoji: '🍰', title: 'Pour Finir',
+      items: [
+        { name: 'Pizza Sucrée Pomme/Cannelle', sizes: ['10,00','11,50','14,50'], desc: '' },
+        { name: 'Pizza Sucrée Banane/Chocolat', sizes: ['10,00','11,50','14,50'], desc: '' },
+        { name: 'Tiramisu', price: '4,00 €', desc: '' },
+        { name: 'Coupe de Glace', price: '6,00 €', desc: '' },
+        { name: 'Dessert Maison', price: '5,00 €', desc: '' },
+        { name: 'Magnum ou Cornetto (été uniquement)', price: '4,00 €', desc: '' },
+      ]
+    },
+    drinks: {
+      emoji: '🥤', title: 'Boissons',
+      items: [
+        { name: 'Sodas 33 cl', price: '2,00 €', desc: 'Coca, Coca Zero, Cherry, Sprite, Orangina, Fanta, San Pellegrino, Oasis, Fuze Tea' },
+        { name: 'Bouteille de Soda', price: '3,50 €', desc: '' },
+        { name: 'Bouteille de Vin 75 cl', price: '12,00 €', desc: 'Rouge, Blanc ou Rosé' },
+        { name: 'Verre de Vin', price: '2,50 €', desc: '' },
+        { name: 'Super Bock 33cl (Lager portugaise)', price: '3,00 €', desc: '' },
+        { name: 'Kiara ou Pietra 33cl (Ambrée corse)', price: '5,00 €', desc: '' },
+        { name: 'Fieldsgold 33cl (Blanche française)', price: '5,00 €', desc: '' },
+        { name: 'Kiara IPA 33cl (Aromatique)', price: '5,00 €', desc: '' },
+        { name: 'Moretti 33cl (Lager italienne)', price: '5,00 €', desc: '' },
+      ]
+    }
+  },
+  en: {
+    starters: { emoji:'🫒', title:'Our Small Starters', items:[
+      { name:'Homemade Olive Tapenade', price:'€5.00', desc:'' },
+      { name:'Homemade Focaccia to share', price:'€6.00', desc:'' },
+      { name:'Mediterranean Bowl', price:'€6.50', desc:'Bed of rocket, fresh tomatoes, mozzarella cubes, basil pesto, parmesan' },
+      { name:'Mini Appetizer Pizzas', price:'€5.50', desc:'Tomato sauce, garlic aioli cream or basil pesto' },
+    ]},
+    classics: { emoji:'🍕', title:'The Classics', supplement:true, items:[
+      { name:'Bianca', sizes:['€13.00','€16.00','€20.00'], desc:'Fresh cream, mozzarella, taleggio, provolone, smoked scamorza, olives, oregano' },
+      { name:'Calzone', sizes:['€11.50','€14.00','€17.50'], desc:'Tomato sauce, emmental, mozzarella, ham, fresh mushrooms, egg' },
+      { name:'Capricciosa', sizes:['€11.00','€13.50','€17.00'], desc:'Tomato sauce, emmental, mozzarella, ham, artichokes, olives, oregano' },
+      { name:'Five Cheeses', sizes:['€13.00','€15.50','€19.50'], desc:'Tomato sauce, emmental, mozzarella, goat cheese, provolone, reblochon, olives, oregano' },
+      { name:'Carbo\'', sizes:['€13.50','€16.50','€21.00'], desc:'Fresh cream, emmental, mozzarella, fresh linguine pasta, reblochon, onions, bacon bits, egg, olives, oregano' },
+      { name:'Épicurienne', sizes:['€14.00','€17.00','€21.50'], desc:'Tomato sauce, emmental, mozzarella, shredded beef, chicken breast, chorizo, garlic oil, oregano, olives' },
+      { name:'Galizza', sizes:['€13.50','€16.50','€21.00'], desc:'Fresh cream, emmental, mozzarella, chicken breast, bacon bits, reblochon, egg, garlic oil, oregano' },
+      { name:'Margherita', sizes:['€9.50','€11.00','€13.50'], desc:'Tomato sauce, emmental, mozzarella, olives, oregano' },
+      { name:'Miss Pizza', sizes:['€13.50','€16.50','€21.00'], desc:'Tomato sauce, emmental, mozzarella, ham, mushrooms, goat cheese, provolone, smoked bacon, olives, oregano' },
+      { name:'Pizzaiola', sizes:['€12.50','€15.00','€19.00'], desc:'Garlic aioli cream, emmental, mozzarella, chorizo, fresh mushrooms, olives, oregano' },
+      { name:'Provençale', sizes:['€10.50','€12.50','€15.50'], desc:'Tomato sauce, fresh mushrooms, fresh onions, fresh tomatoes, grilled peppers, olives, Herbes de Provence' },
+      { name:'Four Seasons', sizes:['€11.00','€13.00','€16.50'], desc:'Tomato sauce, emmental, mozzarella, artichokes, fresh tomatoes, fresh mushrooms, olives, basil' },
+      { name:'Regina', sizes:['€11.00','€13.50','€17.00'], desc:'Tomato sauce, emmental, mozzarella, ham, fresh mushrooms, olives, oregano' },
+      { name:'Romana', sizes:['€11.00','€13.50','€17.00'], desc:'Tomato sauce, emmental, mozzarella, ham, olives, oregano' },
+      { name:'Veggie', sizes:['€11.50','€14.00','€17.50'], desc:'Tomato sauce, emmental, mozzarella, eggplant, fresh mushrooms, caramelized onions, grilled peppers, garlic oil, olives, oregano' },
+    ]},
+    voyages: { emoji:'✈️', title:'Travels', supplement:true, items:[
+      { name:'Alsacienne', sizes:['€11.00','€13.50','€17.00'], desc:'Fresh cream, emmental, mozzarella, smoked bacon, caramelized onions, olives, oregano' },
+      { name:'Andalouse', sizes:['€12.00','€14.50','€18.50'], desc:'Tomato sauce, emmental, mozzarella, chorizo, grilled peppers, garlic oil, olives, oregano' },
+      { name:'Arménienne', sizes:['€12.50','€15.00','€19.00'], desc:'Tomato sauce, emmental, mozzarella, shredded beef, caramelized onions, grilled peppers, garlic oil, olives, oregano' },
+      { name:'Basquaise', sizes:['€13.00','€15.50','€19.50'], desc:'Tomato sauce, emmental, mozzarella, chicken, caramelized onions, grilled peppers, fresh mushrooms, garlic oil, olives, oregano' },
+      { name:'Catalane', sizes:['€13.00','€15.50','€19.50'], desc:'Tomato sauce, emmental, mozzarella, Catalan sausage, grilled peppers, olives, oregano' },
+      { name:'Gersoise', sizes:['€13.00','€16.00','€20.00'], desc:'Fresh cream, emmental, mozzarella, dried duck breast, dried figs, potatoes, balsamic vinegar, olives, oregano' },
+      { name:'Indienne', sizes:['€13.00','€15.50','€19.50'], desc:'Curry cream, emmental, mozzarella, chicken, smoked bacon, potatoes, fried onions, olives, oregano' },
+      { name:'Italienne', sizes:['€13.00','€15.50','€19.50'], desc:'Tomato sauce, emmental, mozzarella, serrano ham, fresh tomatoes, parmesan shavings, rocket, balsamic vinegar, Herbes de Provence' },
+      { name:'Orientale', sizes:['€12.00','€14.50','€18.50'], desc:'Tomato sauce, emmental, mozzarella, merguez (spicy lamb sausage), caramelized onions, grilled peppers, olives, cumin' },
+      { name:'Stambouliote', sizes:['€12.50','€15.00','€19.00'], desc:'Fresh cream, emmental, mozzarella, kebab meat, white sauce, fried onions, olives' },
+    ]},
+    mountains: { emoji:'🏔️', title:'Mountains', supplement:true, items:[
+      { name:'Chevrette', sizes:['€12.00','€14.50','€18.50'], desc:'Fresh cream, emmental, mozzarella, goat cheese, honey, organic almonds, olives, oregano' },
+      { name:'Montagnarde', sizes:['€12.50','€15.00','€19.00'], desc:'Fresh cream, emmental, mozzarella, serrano ham, reblochon cheese, olives, oregano' },
+      { name:'Rustique', sizes:['€11.50','€14.00','€17.50'], desc:'Fresh cream, emmental, mozzarella, ham, fresh mushrooms, camembert, olives, oregano' },
+      { name:'Tartif\'', sizes:['€13.00','€16.00','€20.00'], desc:'Fresh cream, emmental, mozzarella, potatoes, caramelized onions, smoked bacon bits, reblochon cheese, olives, oregano' },
+    ]},
+    maritime: { emoji:'🌊', title:'Maritime', supplement:true, items:[
+      { name:'Collioure', sizes:['€12.50','€15.00','€19.00'], desc:'Tomato sauce, emmental, mozzarella, anchovy fillets, grilled peppers, garlic oil, olives, oregano' },
+      { name:'Neptune', sizes:['€11.50','€14.00','€17.50'], desc:'Tomato sauce, emmental, mozzarella, flaked tuna, garlic oil, olives, oregano' },
+      { name:'Nordique', sizes:['€13.00','€15.50','€19.50'], desc:'Fresh cream, emmental, mozzarella, smoked salmon, olives, basil' },
+    ]},
+    kids: { emoji:'👶', title:'La Casa Kids (under 12)', items:[
+      { name:'Kids Meal', price:'€10.00', desc:'26cm Pizza (Regina, Romana or Margherita) + 1 Capri-Sun (20cl) + 1 Squeezable fruit pouch' },
+    ]},
+    panipizzas: { emoji:'🥪', title:'Panipizzas (Panini / Pizza dough)', items:[
+      { name:'Cannibale', price:'€11.50', desc:'Tomato sauce, emmental, mozzarella, ham, chicken breast, fried onions, oregano' },
+      { name:'Principessa', price:'€10.00', desc:'Tomato sauce, emmental, mozzarella, ham, olives, oregano' },
+      { name:'Scandinave', price:'€11.50', desc:'Fresh cream, emmental, mozzarella, smoked salmon, garlic oil, oregano' },
+      { name:'Savoyarde', price:'€10.50', desc:'Fresh cream, emmental, mozzarella, smoked bacon bits, caramelized onions, reblochon' },
+      { name:'Serrano', price:'€11.00', desc:'Tomato sauce, emmental, mozzarella, serrano ham, goat cheese, garlic oil, Herbes de Provence' },
+      { name:'4 Cheeses', price:'€11.00', desc:'Tomato sauce, emmental, mozzarella, goat cheese, provolone' },
+    ]},
+    empanapizzas: { emoji:'🥟', title:'Empanapizzas (Empanadas / Pizza dough)', note:'Served with a small side salad', items:[
+      { name:'La Criolla', price:'€12.50', desc:'Chimichurri sauce, ground beef, caramelized onions, red pepper, black olives, scrambled eggs, shredded cheese, cumin, paprika, fried onions' },
+      { name:'La Pampas', price:'€12.50', desc:'Fresh cream sauce, roasted chicken, caramelized onions, red pepper, raisins, shredded cheese, toasted almonds, Jalapeños (optional)' },
+      { name:'La Tierra Verde', price:'€11.50', desc:'Pesto sauce, crumbled goat cheese, zucchini, mushrooms, caramelized onions, fresh tomatoes, shredded cheese, sunflower seeds' },
+      { name:'La Patagonia', price:'€12.00', desc:'Tomato sauce, chorizo, potatoes, caramelized onions, shredded cheese, smoked scamorza' },
+      { name:'La Mar Azul', price:'€12.50', desc:'Tomato sauce, flaked tuna, scrambled eggs, shredded cheese, black olives, lemon cream drizzle, capers' },
+    ]},
+    desserts: { emoji:'🍰', title:'To Finish', items:[
+      { name:'Sweet Pizza Apple/Cinnamon', sizes:['€10.00','€11.50','€14.50'], desc:'' },
+      { name:'Sweet Pizza Banana/Chocolate', sizes:['€10.00','€11.50','€14.50'], desc:'' },
+      { name:'Tiramisu', price:'€4.00', desc:'' },
+      { name:'Ice Cream Dessert', price:'€6.00', desc:'' },
+      { name:'Homemade Dessert', price:'€5.00', desc:'' },
+      { name:'Magnum or Cornetto (summer only)', price:'€4.00', desc:'' },
+    ]},
+    drinks: { emoji:'🥤', title:'Drinks', items:[
+      { name:'Sodas 33cl', price:'€2.00', desc:'Coca, Coca Zero, Cherry, Sprite, Orangina, Fanta, San Pellegrino, Oasis, Fuze Tea' },
+      { name:'Bottle of Soda', price:'€3.50', desc:'' },
+      { name:'Wine Bottle 75cl', price:'€12.00', desc:'Red, White or Rosé' },
+      { name:'Glass of Wine', price:'€2.50', desc:'' },
+      { name:'Super Bock 33cl (Portuguese Lager)', price:'€3.00', desc:'' },
+      { name:'Kiara or Pietra 33cl (Corsican Amber)', price:'€5.00', desc:'' },
+      { name:'Fieldsgold 33cl (French Wheat Beer)', price:'€5.00', desc:'' },
+      { name:'Kiara IPA 33cl (Aromatic)', price:'€5.00', desc:'' },
+      { name:'Moretti 33cl (Italian Lager)', price:'€5.00', desc:'' },
+    ]}
+  },
+  es: {
+    starters: { emoji:'🫒', title:'Nuestras Pequeñas Entradas', items:[
+      { name:'Tapenade de aceitunas casera', price:'5,00 €', desc:'' },
+      { name:'Focaccia casera para compartir', price:'6,00 €', desc:'' },
+      { name:'Bol Mediterráneo', price:'6,50 €', desc:'Base de rúcula, tomates frescos, cubos de mozzarella, pesto de albahaca, parmesano' },
+      { name:'Mini Pizzas de Aperitivo', price:'5,50 €', desc:'Salsa de tomate, crema alioli o pesto de albahaca' },
+    ]},
+    classics: { emoji:'🍕', title:'Los Clásicos', supplement:true, items:[
+      { name:'Bianca', sizes:['13,00 €','16,00 €','20,00 €'], desc:'Nata fresca, mozzarella, taleggio, provolone, scamorza ahumada, aceitunas, orégano' },
+      { name:'Calzone', sizes:['11,50 €','14,00 €','17,50 €'], desc:'Salsa de tomate, emmental, mozzarella, jamón, champiñones frescos, huevo' },
+      { name:'Capricciosa', sizes:['11,00 €','13,50 €','17,00 €'], desc:'Salsa de tomate, emmental, mozzarella, jamón, alcachofas, aceitunas, orégano' },
+      { name:'Cinco Quesos', sizes:['13,00 €','15,50 €','19,50 €'], desc:'Salsa de tomate, emmental, mozzarella, queso de cabra, provolone, reblochon, aceitunas, orégano' },
+      { name:'Carbo\'', sizes:['13,50 €','16,50 €','21,00 €'], desc:'Nata fresca, emmental, mozzarella, linguines frescas, reblochon, cebollas, tiras de bacon, huevo, aceitunas, orégano' },
+      { name:'Épicurienne', sizes:['14,00 €','17,00 €','21,50 €'], desc:'Salsa de tomate, emmental, mozzarella, ternera deshilachada, pechuga de pollo, chorizo, aceite de ajo, orégano, aceitunas' },
+      { name:'Galizza', sizes:['13,50 €','16,50 €','21,00 €'], desc:'Nata fresca, emmental, mozzarella, pechuga de pollo, tiras de bacon, reblochon, huevo, aceite de ajo, orégano' },
+      { name:'Margherita', sizes:['9,50 €','11,00 €','13,50 €'], desc:'Salsa de tomate, emmental, mozzarella, aceitunas, orégano' },
+      { name:'Miss Pizza', sizes:['13,50 €','16,50 €','21,00 €'], desc:'Salsa de tomate, emmental, mozzarella, jamón, champiñones, queso de cabra, provolone, bacon ahumado, aceitunas, orégano' },
+      { name:'Pizzaiola', sizes:['12,50 €','15,00 €','19,00 €'], desc:'Crema alioli, emmental, mozzarella, chorizo, champiñones frescos, aceitunas, orégano' },
+      { name:'Provençale', sizes:['10,50 €','12,50 €','15,50 €'], desc:'Salsa de tomate, champiñones frescos, cebollas frescas, tomates frescos, pimientos asados, aceitunas, hierbas de Provenza' },
+      { name:'Cuatro Estaciones', sizes:['11,00 €','13,00 €','16,50 €'], desc:'Salsa de tomate, emmental, mozzarella, alcachofas, tomates frescos, champiñones frescos, aceitunas, albahaca' },
+      { name:'Regina', sizes:['11,00 €','13,50 €','17,00 €'], desc:'Salsa de tomate, emmental, mozzarella, jamón, champiñones frescos, aceitunas, orégano' },
+      { name:'Romana', sizes:['11,00 €','13,50 €','17,00 €'], desc:'Salsa de tomate, emmental, mozzarella, jamón, aceitunas, orégano' },
+      { name:'Veggie', sizes:['11,50 €','14,00 €','17,50 €'], desc:'Salsa de tomate, emmental, mozzarella, berenjena, champiñones frescos, cebollas caramelizadas, pimientos asados, aceite de ajo, aceitunas, orégano' },
+    ]},
+    voyages: { emoji:'✈️', title:'Los Viajes', supplement:true, items:[
+      { name:'Alsacienne', sizes:['11,00 €','13,50 €','17,00 €'], desc:'Nata fresca, emmental, mozzarella, bacon ahumado, cebollas caramelizadas, aceitunas, orégano' },
+      { name:'Andalouse', sizes:['12,00 €','14,50 €','18,50 €'], desc:'Salsa de tomate, emmental, mozzarella, chorizo, pimientos asados, aceite de ajo, aceitunas, orégano' },
+      { name:'Arménienne', sizes:['12,50 €','15,00 €','19,00 €'], desc:'Salsa de tomate, emmental, mozzarella, ternera deshilachada, cebollas caramelizadas, pimientos asados, aceite de ajo, aceitunas, orégano' },
+      { name:'Basquaise', sizes:['13,00 €','15,50 €','19,50 €'], desc:'Salsa de tomate, emmental, mozzarella, pollo, cebollas caramelizadas, pimientos asados, champiñones frescos, aceite de ajo, aceitunas, orégano' },
+      { name:'Catalane', sizes:['13,00 €','15,50 €','19,50 €'], desc:'Salsa de tomate, emmental, mozzarella, salchicha catalana, pimientos asados, aceitunas, orégano' },
+      { name:'Gersoise', sizes:['13,00 €','16,00 €','20,00 €'], desc:'Nata fresca, emmental, mozzarella, magret de pato seco, higos secos, patatas, vinagre balsámico, aceitunas, orégano' },
+      { name:'Indienne', sizes:['13,00 €','15,50 €','19,50 €'], desc:'Crema de curry, emmental, mozzarella, pollo, bacon ahumado, patatas, cebollas fritas, aceitunas, orégano' },
+      { name:'Italienne', sizes:['13,00 €','15,50 €','19,50 €'], desc:'Salsa de tomate, emmental, mozzarella, jamón serrano, tomates frescos, virutas de parmesano, rúcula, vinagre balsámico, hierbas de Provenza' },
+      { name:'Orientale', sizes:['12,00 €','14,50 €','18,50 €'], desc:'Salsa de tomate, emmental, mozzarella, merguez (salchicha picante de cordero), cebollas caramelizadas, pimientos asados, aceitunas, comino' },
+      { name:'Stambouliote', sizes:['12,50 €','15,00 €','19,00 €'], desc:'Nata fresca, emmental, mozzarella, carne de kebab, salsa blanca, cebollas fritas, aceitunas' },
+    ]},
+    mountains: { emoji:'🏔️', title:'Las Montañas', supplement:true, items:[
+      { name:'Chevrette', sizes:['12,00 €','14,50 €','18,50 €'], desc:'Nata fresca, emmental, mozzarella, queso de cabra, miel, almendras ecológicas, aceitunas, orégano' },
+      { name:'Montagnarde', sizes:['12,50 €','15,00 €','19,00 €'], desc:'Nata fresca, emmental, mozzarella, jamón serrano, queso reblochon, aceitunas, orégano' },
+      { name:'Rustique', sizes:['11,50 €','14,00 €','17,50 €'], desc:'Nata fresca, emmental, mozzarella, jamón, champiñones frescos, camembert, aceitunas, orégano' },
+      { name:'Tartif\'', sizes:['13,00 €','16,00 €','20,00 €'], desc:'Nata fresca, emmental, mozzarella, patatas, cebollas caramelizadas, tiras de bacon ahumado, reblochon, aceitunas, orégano' },
+    ]},
+    maritime: { emoji:'🌊', title:'Las Marítimas', supplement:true, items:[
+      { name:'Collioure', sizes:['12,50 €','15,00 €','19,00 €'], desc:'Salsa de tomate, emmental, mozzarella, filetes de anchoa, pimientos asados, aceite de ajo, aceitunas, orégano' },
+      { name:'Neptune', sizes:['11,50 €','14,00 €','17,50 €'], desc:'Salsa de tomate, emmental, mozzarella, atún desmenuzado, aceite de ajo, aceitunas, orégano' },
+      { name:'Nordique', sizes:['13,00 €','15,50 €','19,50 €'], desc:'Nata fresca, emmental, mozzarella, salmón ahumado, aceitunas, albahaca' },
+    ]},
+    kids: { emoji:'👶', title:'La Casa Kids (menores de 12 años)', items:[
+      { name:'Menú Infantil', price:'10,00 €', desc:'Pizza 26 cm (Regina, Romana o Margherita) + 1 Capri-Sun (20cl) + 1 Bolsita de fruta' },
+    ]},
+    panipizzas: { emoji:'🥪', title:'Panipizzas (Panini / Masa de pizza)', items:[
+      { name:'Cannibale', price:'11,50 €', desc:'Salsa de tomate, emmental, mozzarella, jamón, pechuga de pollo, cebollas fritas, orégano' },
+      { name:'Principessa', price:'10,00 €', desc:'Salsa de tomate, emmental, mozzarella, jamón, aceitunas, orégano' },
+      { name:'Scandinave', price:'11,50 €', desc:'Nata fresca, emmental, mozzarella, salmón ahumado, aceite de ajo, orégano' },
+      { name:'Savoyarde', price:'10,50 €', desc:'Nata fresca, emmental, mozzarella, tiras de bacon ahumado, cebollas caramelizadas, reblochon' },
+      { name:'Serrano', price:'11,00 €', desc:'Salsa de tomate, emmental, mozzarella, jamón serrano, queso de cabra, aceite de ajo, hierbas de Provenza' },
+      { name:'4 Quesos', price:'11,00 €', desc:'Salsa de tomate, emmental, mozzarella, queso de cabra, provolone' },
+    ]},
+    empanapizzas: { emoji:'🥟', title:'Empanapizzas (Empanadas / Masa de pizza)', note:'Servidas con una pequeña ensalada', items:[
+      { name:'La Criolla', price:'12,50 €', desc:'Salsa chimichurri, carne picada de ternera, cebollas caramelizadas, pimiento rojo, aceitunas negras, huevos revueltos, queso rallado, comino, pimentón, cebollas fritas' },
+      { name:'La Pampas', price:'12,50 €', desc:'Nata fresca, pollo asado, cebollas caramelizadas, pimiento rojo, pasas, queso rallado, almendras tostadas, Jalapeños (opcional)' },
+      { name:'La Tierra Verde', price:'11,50 €', desc:'Salsa pesto, queso de cabra desmenuzado, calabacín, champiñones, cebollas caramelizadas, tomates frescos, queso rallado, pipas de girasol' },
+      { name:'La Patagonia', price:'12,00 €', desc:'Salsa de tomate, chorizo, patatas, cebollas caramelizadas, queso rallado, scamorza ahumada' },
+      { name:'La Mar Azul', price:'12,50 €', desc:'Salsa de tomate, atún desmenuzado, huevos revueltos, queso rallado, aceitunas negras, hilo de crema de limón, alcaparras' },
+    ]},
+    desserts: { emoji:'🍰', title:'Para Terminar', items:[
+      { name:'Pizza Dulce Manzana/Canela', sizes:['10,00 €','11,50 €','14,50 €'], desc:'' },
+      { name:'Pizza Dulce Plátano/Chocolate', sizes:['10,00 €','11,50 €','14,50 €'], desc:'' },
+      { name:'Tiramisú', price:'4,00 €', desc:'' },
+      { name:'Copa de Helado', price:'6,00 €', desc:'' },
+      { name:'Postre Casero', price:'5,00 €', desc:'' },
+      { name:'Magnum o Cornetto (solo verano)', price:'4,00 €', desc:'' },
+    ]},
+    drinks: { emoji:'🥤', title:'Bebidas', items:[
+      { name:'Refrescos 33 cl', price:'2,00 €', desc:'Coca-Cola, Coca-Cola Zero, Cherry, Sprite, Orangina, Fanta, San Pellegrino, Oasis, Fuze Tea' },
+      { name:'Botella de Refresco', price:'3,50 €', desc:'' },
+      { name:'Botella de Vino 75 cl', price:'12,00 €', desc:'Tinto, Blanco o Rosado' },
+      { name:'Copa de Vino', price:'2,50 €', desc:'' },
+      { name:'Super Bock 33cl (Lager portuguesa)', price:'3,00 €', desc:'' },
+      { name:'Kiara o Pietra 33cl (Ambar corsa)', price:'5,00 €', desc:'' },
+      { name:'Fieldsgold 33cl (Cerveza de trigo francesa)', price:'5,00 €', desc:'' },
+      { name:'Kiara IPA 33cl (Aromática)', price:'5,00 €', desc:'' },
+      { name:'Moretti 33cl (Lager italiana)', price:'5,00 €', desc:'' },
+    ]}
+  },
+  de: {
+    starters: { emoji:'🫒', title:'Unsere kleinen Vorspeisen', items:[
+      { name:'Hausgemachte Oliventapenade', price:'5,00 €', desc:'' },
+      { name:'Hausgemachte Focaccia zum Teilen', price:'6,00 €', desc:'' },
+      { name:'Mediterraner Bowl', price:'6,50 €', desc:'Rucola-Bett, frische Tomaten, Mozzarella-Würfel, Basilikumpesto, Parmesan' },
+      { name:'Mini-Aperitif-Pizzen', price:'5,50 €', desc:'Tomatensauce, Aioli-Creme oder Basilikumpesto' },
+    ]},
+    classics: { emoji:'🍕', title:'Die Klassiker', supplement:true, items:[
+      { name:'Bianca', sizes:['13,00 €','16,00 €','20,00 €'], desc:'Frischrahm, Mozzarella, Taleggio, Provolone, geräucherte Scamorza, Oliven, Oregano' },
+      { name:'Calzone', sizes:['11,50 €','14,00 €','17,50 €'], desc:'Tomatensauce, Emmental, Mozzarella, Schinken, frische Champignons, Ei' },
+      { name:'Capricciosa', sizes:['11,00 €','13,50 €','17,00 €'], desc:'Tomatensauce, Emmental, Mozzarella, Schinken, Artischocken, Oliven, Oregano' },
+      { name:'Fünf Käse', sizes:['13,00 €','15,50 €','19,50 €'], desc:'Tomatensauce, Emmental, Mozzarella, Ziegenkäse, Provolone, Reblochon, Oliven, Oregano' },
+      { name:'Carbo\'', sizes:['13,50 €','16,50 €','21,00 €'], desc:'Frischrahm, Emmental, Mozzarella, frische Linguine, Reblochon, Zwiebeln, Speckwürfel, Ei, Oliven, Oregano' },
+      { name:'Épicurienne', sizes:['14,00 €','17,00 €','21,50 €'], desc:'Tomatensauce, Emmental, Mozzarella, Rindfleisch-Pulled, Hähnchenbrustfilet, Chorizo, Knoblauchöl, Oregano, Oliven' },
+      { name:'Galizza', sizes:['13,50 €','16,50 €','21,00 €'], desc:'Frischrahm, Emmental, Mozzarella, Hähnchenbrustfilet, Speckwürfel, Reblochon, Ei, Knoblauchöl, Oregano' },
+      { name:'Margherita', sizes:['9,50 €','11,00 €','13,50 €'], desc:'Tomatensauce, Emmental, Mozzarella, Oliven, Oregano' },
+      { name:'Miss Pizza', sizes:['13,50 €','16,50 €','21,00 €'], desc:'Tomatensauce, Emmental, Mozzarella, Schinken, Champignons, Ziegenkäse, Provolone, Räucherspeck, Oliven, Oregano' },
+      { name:'Pizzaiola', sizes:['12,50 €','15,00 €','19,00 €'], desc:'Aioli-Creme, Emmental, Mozzarella, Chorizo, frische Champignons, Oliven, Oregano' },
+      { name:'Provençale', sizes:['10,50 €','12,50 €','15,50 €'], desc:'Tomatensauce, frische Champignons, frische Zwiebeln, frische Tomaten, gegrillte Paprika, Oliven, Herbes de Provence' },
+      { name:'Vier Jahreszeiten', sizes:['11,00 €','13,00 €','16,50 €'], desc:'Tomatensauce, Emmental, Mozzarella, Artischocken, frische Tomaten, frische Champignons, Oliven, Basilikum' },
+      { name:'Regina', sizes:['11,00 €','13,50 €','17,00 €'], desc:'Tomatensauce, Emmental, Mozzarella, Schinken, frische Champignons, Oliven, Oregano' },
+      { name:'Romana', sizes:['11,00 €','13,50 €','17,00 €'], desc:'Tomatensauce, Emmental, Mozzarella, Schinken, Oliven, Oregano' },
+      { name:'Veggie', sizes:['11,50 €','14,00 €','17,50 €'], desc:'Tomatensauce, Emmental, Mozzarella, Aubergine, frische Champignons, karamellisierte Zwiebeln, gegrillte Paprika, Knoblauchöl, Oliven, Oregano' },
+    ]},
+    voyages: { emoji:'✈️', title:'Die Reisen', supplement:true, items:[
+      { name:'Alsacienne', sizes:['11,00 €','13,50 €','17,00 €'], desc:'Frischrahm, Emmental, Mozzarella, Räucherspeck, karamellisierte Zwiebeln, Oliven, Oregano' },
+      { name:'Andalouse', sizes:['12,00 €','14,50 €','18,50 €'], desc:'Tomatensauce, Emmental, Mozzarella, Chorizo, gegrillte Paprika, Knoblauchöl, Oliven, Oregano' },
+      { name:'Arménienne', sizes:['12,50 €','15,00 €','19,00 €'], desc:'Tomatensauce, Emmental, Mozzarella, Rindfleisch-Pulled, karamellisierte Zwiebeln, gegrillte Paprika, Knoblauchöl, Oliven, Oregano' },
+      { name:'Basquaise', sizes:['13,00 €','15,50 €','19,50 €'], desc:'Tomatensauce, Emmental, Mozzarella, Hähnchen, karamellisierte Zwiebeln, gegrillte Paprika, frische Champignons, Knoblauchöl, Oliven, Oregano' },
+      { name:'Catalane', sizes:['13,00 €','15,50 €','19,50 €'], desc:'Tomatensauce, Emmental, Mozzarella, katalanische Wurst, gegrillte Paprika, Oliven, Oregano' },
+      { name:'Gersoise', sizes:['13,00 €','16,00 €','20,00 €'], desc:'Frischrahm, Emmental, Mozzarella, getrocknete Entenbrust, getrocknete Feigen, Kartoffeln, Balsamico-Essig, Oliven, Oregano' },
+      { name:'Indienne', sizes:['13,00 €','15,50 €','19,50 €'], desc:'Curry-Creme, Emmental, Mozzarella, Hähnchen, Räucherspeck, Kartoffeln, frittierte Zwiebeln, Oliven, Oregano' },
+      { name:'Italienne', sizes:['13,00 €','15,50 €','19,50 €'], desc:'Tomatensauce, Emmental, Mozzarella, Serrano-Schinken, frische Tomaten, Parmesan-Hobel, Rucola, Balsamico-Essig, Herbes de Provence' },
+      { name:'Orientale', sizes:['12,00 €','14,50 €','18,50 €'], desc:'Tomatensauce, Emmental, Mozzarella, Merguez (scharfe Lammwurst), karamellisierte Zwiebeln, gegrillte Paprika, Oliven, Kreuzkümmel' },
+      { name:'Stambouliote', sizes:['12,50 €','15,00 €','19,00 €'], desc:'Frischrahm, Emmental, Mozzarella, Kebab-Fleisch, weiße Sauce, frittierte Zwiebeln, Oliven' },
+    ]},
+    mountains: { emoji:'🏔️', title:'Die Berge', supplement:true, items:[
+      { name:'Chevrette', sizes:['12,00 €','14,50 €','18,50 €'], desc:'Frischrahm, Emmental, Mozzarella, Ziegenkäse, Honig, Bio-Mandeln, Oliven, Oregano' },
+      { name:'Montagnarde', sizes:['12,50 €','15,00 €','19,00 €'], desc:'Frischrahm, Emmental, Mozzarella, Serrano-Schinken, Reblochon, Oliven, Oregano' },
+      { name:'Rustique', sizes:['11,50 €','14,00 €','17,50 €'], desc:'Frischrahm, Emmental, Mozzarella, Schinken, frische Champignons, Camembert, Oliven, Oregano' },
+      { name:'Tartif\'', sizes:['13,00 €','16,00 €','20,00 €'], desc:'Frischrahm, Emmental, Mozzarella, Kartoffeln, karamellisierte Zwiebeln, geräucherte Speckwürfel, Reblochon, Oliven, Oregano' },
+    ]},
+    maritime: { emoji:'🌊', title:'Die Meeresfrüchte', supplement:true, items:[
+      { name:'Collioure', sizes:['12,50 €','15,00 €','19,00 €'], desc:'Tomatensauce, Emmental, Mozzarella, Sardellenfilets, gegrillte Paprika, Knoblauchöl, Oliven, Oregano' },
+      { name:'Neptune', sizes:['11,50 €','14,00 €','17,50 €'], desc:'Tomatensauce, Emmental, Mozzarella, zerkleinerter Thunfisch, Knoblauchöl, Oliven, Oregano' },
+      { name:'Nordique', sizes:['13,00 €','15,50 €','19,50 €'], desc:'Frischrahm, Emmental, Mozzarella, Räucherlachs, Oliven, Basilikum' },
+    ]},
+    kids: { emoji:'👶', title:'La Casa Kids (unter 12 Jahre)', items:[
+      { name:'Kindermenü', price:'10,00 €', desc:'Pizza 26 cm (Regina, Romana oder Margherita) + 1 Capri-Sun (20cl) + 1 Fruchtbeutel' },
+    ]},
+    panipizzas: { emoji:'🥪', title:'Panipizzas (Panini / Pizzateig)', items:[
+      { name:'Cannibale', price:'11,50 €', desc:'Tomatensauce, Emmental, Mozzarella, Schinken, Hähnchenbrustfilet, frittierte Zwiebeln, Oregano' },
+      { name:'Principessa', price:'10,00 €', desc:'Tomatensauce, Emmental, Mozzarella, Schinken, Oliven, Oregano' },
+      { name:'Scandinave', price:'11,50 €', desc:'Frischrahm, Emmental, Mozzarella, Räucherlachs, Knoblauchöl, Oregano' },
+      { name:'Savoyarde', price:'10,50 €', desc:'Frischrahm, Emmental, Mozzarella, geräucherte Speckwürfel, karamellisierte Zwiebeln, Reblochon' },
+      { name:'Serrano', price:'11,00 €', desc:'Tomatensauce, Emmental, Mozzarella, Serrano-Schinken, Ziegenkäse, Knoblauchöl, Herbes de Provence' },
+      { name:'4 Käse', price:'11,00 €', desc:'Tomatensauce, Emmental, Mozzarella, Ziegenkäse, Provolone' },
+    ]},
+    empanapizzas: { emoji:'🥟', title:'Empanapizzas (Empanadas / Pizzateig)', note:'Serviert mit einem kleinen grünen Salat', items:[
+      { name:'La Criolla', price:'12,50 €', desc:'Chimichurri-Sauce, Rinderhackfleisch, karamellisierte Zwiebeln, rote Paprika, schwarze Oliven, Rührei, geriebener Käse, Kreuzkümmel, Paprika, frittierte Zwiebeln' },
+      { name:'La Pampas', price:'12,50 €', desc:'Frischrahm, gebratenes Hähnchen, karamellisierte Zwiebeln, rote Paprika, Rosinen, geriebener Käse, geröstete Mandeln, Jalapeños (optional)' },
+      { name:'La Tierra Verde', price:'11,50 €', desc:'Pesto-Sauce, zerbröckelter Ziegenkäse, Zucchini, Champignons, karamellisierte Zwiebeln, frische Tomaten, geriebener Käse, Sonnenblumenkerne' },
+      { name:'La Patagonia', price:'12,00 €', desc:'Tomatensauce, Chorizo, Kartoffeln, karamellisierte Zwiebeln, geriebener Käse, geräucherte Scamorza' },
+      { name:'La Mar Azul', price:'12,50 €', desc:'Tomatensauce, zerkleinerter Thunfisch, Rührei, geriebener Käse, schwarze Oliven, Zitronencreme-Träufeln, Kapern' },
+    ]},
+    desserts: { emoji:'🍰', title:'Zum Abschluss', items:[
+      { name:'Süße Pizza Apfel/Zimt', sizes:['10,00 €','11,50 €','14,50 €'], desc:'' },
+      { name:'Süße Pizza Banane/Schokolade', sizes:['10,00 €','11,50 €','14,50 €'], desc:'' },
+      { name:'Tiramisu', price:'4,00 €', desc:'' },
+      { name:'Eisbecher', price:'6,00 €', desc:'' },
+      { name:'Hausgemachtes Dessert', price:'5,00 €', desc:'' },
+      { name:'Magnum oder Cornetto (nur im Sommer)', price:'4,00 €', desc:'' },
+    ]},
+    drinks: { emoji:'🥤', title:'Getränke', items:[
+      { name:'Softdrinks 33 cl', price:'2,00 €', desc:'Cola, Cola Zero, Cherry, Sprite, Orangina, Fanta, San Pellegrino, Oasis, Fuze Tea' },
+      { name:'Flasche Softdrink', price:'3,50 €', desc:'' },
+      { name:'Weinflasche 75 cl', price:'12,00 €', desc:'Rot-, Weiß- oder Roséwein' },
+      { name:'Glas Wein', price:'2,50 €', desc:'' },
+      { name:'Super Bock 33cl (Portugiesisches Lager)', price:'3,00 €', desc:'' },
+      { name:'Kiara oder Pietra 33cl (Korsisches Amber)', price:'5,00 €', desc:'' },
+      { name:'Fieldsgold 33cl (Französisches Weizenbier)', price:'5,00 €', desc:'' },
+      { name:'Kiara IPA 33cl (Aromatisch)', price:'5,00 €', desc:'' },
+      { name:'Moretti 33cl (Italienisches Lager)', price:'5,00 €', desc:'' },
+    ]}
+  },
+  it: {
+    starters: { emoji:'🫒', title:'I Nostri Piccoli Antipasti', items:[
+      { name:'Tapenade di olive fatta in casa', price:'5,00 €', desc:'' },
+      { name:'Focaccia fatta in casa da condividere', price:'6,00 €', desc:'' },
+      { name:'Ciotola Mediterranea', price:'6,50 €', desc:'Letto di rucola, pomodori freschi, cubetti di mozzarella, pesto al basilico, parmigiano' },
+      { name:'Mini Pizze Aperitivo', price:'5,50 €', desc:'Salsa di pomodoro, crema all\'aioli o pesto al basilico' },
+    ]},
+    classics: { emoji:'🍕', title:'I Classici', supplement:true, items:[
+      { name:'Bianca', sizes:['13,00 €','16,00 €','20,00 €'], desc:'Panna fresca, mozzarella, taleggio, provolone, scamorza affumicata, olive, origano' },
+      { name:'Calzone', sizes:['11,50 €','14,00 €','17,50 €'], desc:'Salsa di pomodoro, emmental, mozzarella, prosciutto, funghi freschi, uovo' },
+      { name:'Capricciosa', sizes:['11,00 €','13,50 €','17,00 €'], desc:'Salsa di pomodoro, emmental, mozzarella, prosciutto, carciofi, olive, origano' },
+      { name:'Cinque Formaggi', sizes:['13,00 €','15,50 €','19,50 €'], desc:'Salsa di pomodoro, emmental, mozzarella, caprino, provolone, reblochon, olive, origano' },
+      { name:'Carbo\'', sizes:['13,50 €','16,50 €','21,00 €'], desc:'Panna fresca, emmental, mozzarella, linguine fresche, reblochon, cipolle, pancetta a cubetti, uovo, olive, origano' },
+      { name:'Épicurienne', sizes:['14,00 €','17,00 €','21,50 €'], desc:'Salsa di pomodoro, emmental, mozzarella, manzo sfilacciato, petto di pollo, chorizo, olio all\'aglio, origano, olive' },
+      { name:'Galizza', sizes:['13,50 €','16,50 €','21,00 €'], desc:'Panna fresca, emmental, mozzarella, petto di pollo, pancetta a cubetti, reblochon, uovo, olio all\'aglio, origano' },
+      { name:'Margherita', sizes:['9,50 €','11,00 €','13,50 €'], desc:'Salsa di pomodoro, emmental, mozzarella, olive, origano' },
+      { name:'Miss Pizza', sizes:['13,50 €','16,50 €','21,00 €'], desc:'Salsa di pomodoro, emmental, mozzarella, prosciutto, funghi, caprino, provolone, pancetta affumicata, olive, origano' },
+      { name:'Pizzaiola', sizes:['12,50 €','15,00 €','19,00 €'], desc:'Crema all\'aioli, emmental, mozzarella, chorizo, funghi freschi, olive, origano' },
+      { name:'Provençale', sizes:['10,50 €','12,50 €','15,50 €'], desc:'Salsa di pomodoro, funghi freschi, cipolle fresche, pomodori freschi, peperoni grigliati, olive, Herbes de Provence' },
+      { name:'Quattro Stagioni', sizes:['11,00 €','13,00 €','16,50 €'], desc:'Salsa di pomodoro, emmental, mozzarella, carciofi, pomodori freschi, funghi freschi, olive, basilico' },
+      { name:'Regina', sizes:['11,00 €','13,50 €','17,00 €'], desc:'Salsa di pomodoro, emmental, mozzarella, prosciutto, funghi freschi, olive, origano' },
+      { name:'Romana', sizes:['11,00 €','13,50 €','17,00 €'], desc:'Salsa di pomodoro, emmental, mozzarella, prosciutto, olive, origano' },
+      { name:'Veggie', sizes:['11,50 €','14,00 €','17,50 €'], desc:'Salsa di pomodoro, emmental, mozzarella, melanzane, funghi freschi, cipolle caramellate, peperoni grigliati, olio all\'aglio, olive, origano' },
+    ]},
+    voyages: { emoji:'✈️', title:'I Viaggi', supplement:true, items:[
+      { name:'Alsacienne', sizes:['11,00 €','13,50 €','17,00 €'], desc:'Panna fresca, emmental, mozzarella, pancetta affumicata, cipolle caramellate, olive, origano' },
+      { name:'Andalouse', sizes:['12,00 €','14,50 €','18,50 €'], desc:'Salsa di pomodoro, emmental, mozzarella, chorizo, peperoni grigliati, olio all\'aglio, olive, origano' },
+      { name:'Arménienne', sizes:['12,50 €','15,00 €','19,00 €'], desc:'Salsa di pomodoro, emmental, mozzarella, manzo sfilacciato, cipolle caramellate, peperoni grigliati, olio all\'aglio, olive, origano' },
+      { name:'Basquaise', sizes:['13,00 €','15,50 €','19,50 €'], desc:'Salsa di pomodoro, emmental, mozzarella, pollo, cipolle caramellate, peperoni grigliati, funghi freschi, olio all\'aglio, olive, origano' },
+      { name:'Catalane', sizes:['13,00 €','15,50 €','19,50 €'], desc:'Salsa di pomodoro, emmental, mozzarella, salsiccia catalana, peperoni grigliati, olive, origano' },
+      { name:'Gersoise', sizes:['13,00 €','16,00 €','20,00 €'], desc:'Panna fresca, emmental, mozzarella, magret d\'anatra essiccato, fichi secchi, patate, aceto balsamico, olive, origano' },
+      { name:'Indienne', sizes:['13,00 €','15,50 €','19,50 €'], desc:'Crema al curry, emmental, mozzarella, pollo, pancetta affumicata, patate, cipolle fritte, olive, origano' },
+      { name:'Italienne', sizes:['13,00 €','15,50 €','19,50 €'], desc:'Salsa di pomodoro, emmental, mozzarella, prosciutto serrano, pomodori freschi, scaglie di parmigiano, rucola, aceto balsamico, Herbes de Provence' },
+      { name:'Orientale', sizes:['12,00 €','14,50 €','18,50 €'], desc:'Salsa di pomodoro, emmental, mozzarella, merguez (salsiccia piccante d\'agnello), cipolle caramellate, peperoni grigliati, olive, cumino' },
+      { name:'Stambouliote', sizes:['12,50 €','15,00 €','19,00 €'], desc:'Panna fresca, emmental, mozzarella, carne di kebab, salsa bianca, cipolle fritte, olive' },
+    ]},
+    mountains: { emoji:'🏔️', title:'Le Montagne', supplement:true, items:[
+      { name:'Chevrette', sizes:['12,00 €','14,50 €','18,50 €'], desc:'Panna fresca, emmental, mozzarella, caprino, miele, mandorle biologiche, olive, origano' },
+      { name:'Montagnarde', sizes:['12,50 €','15,00 €','19,00 €'], desc:'Panna fresca, emmental, mozzarella, prosciutto serrano, reblochon, olive, origano' },
+      { name:'Rustique', sizes:['11,50 €','14,00 €','17,50 €'], desc:'Panna fresca, emmental, mozzarella, prosciutto, funghi freschi, camembert, olive, origano' },
+      { name:'Tartif\'', sizes:['13,00 €','16,00 €','20,00 €'], desc:'Panna fresca, emmental, mozzarella, patate, cipolle caramellate, pancetta affumicata a cubetti, reblochon, olive, origano' },
+    ]},
+    maritime: { emoji:'🌊', title:'Le Maritime', supplement:true, items:[
+      { name:'Collioure', sizes:['12,50 €','15,00 €','19,00 €'], desc:'Salsa di pomodoro, emmental, mozzarella, filetti di acciughe, peperoni grigliati, olio all\'aglio, olive, origano' },
+      { name:'Neptune', sizes:['11,50 €','14,00 €','17,50 €'], desc:'Salsa di pomodoro, emmental, mozzarella, tonno sbriciolato, olio all\'aglio, olive, origano' },
+      { name:'Nordique', sizes:['13,00 €','15,50 €','19,50 €'], desc:'Panna fresca, emmental, mozzarella, salmone affumicato, olive, basilico' },
+    ]},
+    kids: { emoji:'👶', title:'La Casa Kids (under 12 anni)', items:[
+      { name:'Menu Bambino', price:'10,00 €', desc:'Pizza 26 cm (Regina, Romana o Margherita) + 1 Capri-Sun (20cl) + 1 Bustina di frutta' },
+    ]},
+    panipizzas: { emoji:'🥪', title:'Panipizzas (Panini / Impasto pizza)', items:[
+      { name:'Cannibale', price:'11,50 €', desc:'Salsa di pomodoro, emmental, mozzarella, prosciutto, petto di pollo, cipolle fritte, origano' },
+      { name:'Principessa', price:'10,00 €', desc:'Salsa di pomodoro, emmental, mozzarella, prosciutto, olive, origano' },
+      { name:'Scandinave', price:'11,50 €', desc:'Panna fresca, emmental, mozzarella, salmone affumicato, olio all\'aglio, origano' },
+      { name:'Savoyarde', price:'10,50 €', desc:'Panna fresca, emmental, mozzarella, pancetta affumicata a cubetti, cipolle caramellate, reblochon' },
+      { name:'Serrano', price:'11,00 €', desc:'Salsa di pomodoro, emmental, mozzarella, prosciutto serrano, caprino, olio all\'aglio, Herbes de Provence' },
+      { name:'4 Formaggi', price:'11,00 €', desc:'Salsa di pomodoro, emmental, mozzarella, caprino, provolone' },
+    ]},
+    empanapizzas: { emoji:'🥟', title:'Empanapizzas (Empanadas / Impasto pizza)', note:'Servite con una piccola insalata verde', items:[
+      { name:'La Criolla', price:'12,50 €', desc:'Salsa chimichurri, carne macinata di manzo, cipolle caramellate, peperone rosso, olive nere, uova strapazzate, formaggio grattugiato, cumino, paprika, cipolle fritte' },
+      { name:'La Pampas', price:'12,50 €', desc:'Panna fresca, pollo arrosto, cipolle caramellate, peperone rosso, uvetta, formaggio grattugiato, mandorle tostate, Jalapeños (opzionale)' },
+      { name:'La Tierra Verde', price:'11,50 €', desc:'Salsa pesto, caprino sbriciolato, zucchine, funghi, cipolle caramellate, pomodori freschi, formaggio grattugiato, semi di girasole' },
+      { name:'La Patagonia', price:'12,00 €', desc:'Salsa di pomodoro, chorizo, patate, cipolle caramellate, formaggio grattugiato, scamorza affumicata' },
+      { name:'La Mar Azul', price:'12,50 €', desc:'Salsa di pomodoro, tonno sbriciolato, uova strapazzate, formaggio grattugiato, olive nere, filo di crema al limone, capperi' },
+    ]},
+    desserts: { emoji:'🍰', title:'Per Finire', items:[
+      { name:'Pizza Dolce Mela/Cannella', sizes:['10,00 €','11,50 €','14,50 €'], desc:'' },
+      { name:'Pizza Dolce Banana/Cioccolato', sizes:['10,00 €','11,50 €','14,50 €'], desc:'' },
+      { name:'Tiramisù', price:'4,00 €', desc:'' },
+      { name:'Coppa di Gelato', price:'6,00 €', desc:'' },
+      { name:'Dolce Fatto in Casa', price:'5,00 €', desc:'' },
+      { name:'Magnum o Cornetto (solo estate)', price:'4,00 €', desc:'' },
+    ]},
+    drinks: { emoji:'🥤', title:'Bevande', items:[
+      { name:'Bibite 33 cl', price:'2,00 €', desc:'Coca-Cola, Coca Zero, Cherry, Sprite, Orangina, Fanta, San Pellegrino, Oasis, Fuze Tea' },
+      { name:'Bottiglia di bibita', price:'3,50 €', desc:'' },
+      { name:'Bottiglia di Vino 75 cl', price:'12,00 €', desc:'Rosso, Bianco o Rosato' },
+      { name:'Bicchiere di Vino', price:'2,50 €', desc:'' },
+      { name:'Super Bock 33cl (Lager portoghese)', price:'3,00 €', desc:'' },
+      { name:'Kiara o Pietra 33cl (Ambrata corsa)', price:'5,00 €', desc:'' },
+      { name:'Fieldsgold 33cl (Birra di frumento francese)', price:'5,00 €', desc:'' },
+      { name:'Kiara IPA 33cl (Aromatica)', price:'5,00 €', desc:'' },
+      { name:'Moretti 33cl (Lager italiana)', price:'5,00 €', desc:'' },
+    ]}
+  },
+  nl: {
+    starters: { emoji:'🫒', title:'Onze Kleine Voorgerechten', items:[
+      { name:'Huisgemaakte olijventapenade', price:'€ 5,00', desc:'' },
+      { name:'Huisgemaakte focaccia om te delen', price:'€ 6,00', desc:'' },
+      { name:'Mediterrane Bowl', price:'€ 6,50', desc:'Bedje van rucola, verse tomaten, mozzarellablokjes, basilicumpesto, parmezaan' },
+      { name:'Mini Aperitief Pizzaatjes', price:'€ 5,50', desc:'Tomatensaus, knoflook-aïolicrème of basilicumpesto' },
+    ]},
+    classics: { emoji:'🍕', title:'De Klassiekers', supplement:true, items:[
+      { name:'Bianca', sizes:['€ 13,00','€ 16,00','€ 20,00'], desc:'Verse room, mozzarella, taleggio, provolone, gerookte scamorza, olijven, oregano' },
+      { name:'Calzone', sizes:['€ 11,50','€ 14,00','€ 17,50'], desc:'Tomatensaus, emmental, mozzarella, ham, verse champignons, ei' },
+      { name:'Capricciosa', sizes:['€ 11,00','€ 13,50','€ 17,00'], desc:'Tomatensaus, emmental, mozzarella, ham, artisjokken, olijven, oregano' },
+      { name:'Vijf Kazen', sizes:['€ 13,00','€ 15,50','€ 19,50'], desc:'Tomatensaus, emmental, mozzarella, geitenkaas, provolone, reblochon, olijven, oregano' },
+      { name:'Carbo\'', sizes:['€ 13,50','€ 16,50','€ 21,00'], desc:'Verse room, emmental, mozzarella, verse linguine, reblochon, uien, spekblokjes, ei, olijven, oregano' },
+      { name:'Épicurienne', sizes:['€ 14,00','€ 17,00','€ 21,50'], desc:'Tomatensaus, emmental, mozzarella, pulled beef, kipfilet, chorizo, knoflookolie, oregano, olijven' },
+      { name:'Galizza', sizes:['€ 13,50','€ 16,50','€ 21,00'], desc:'Verse room, emmental, mozzarella, kipfilet, spekblokjes, reblochon, ei, knoflookolie, oregano' },
+      { name:'Margherita', sizes:['€ 9,50','€ 11,00','€ 13,50'], desc:'Tomatensaus, emmental, mozzarella, olijven, oregano' },
+      { name:'Miss Pizza', sizes:['€ 13,50','€ 16,50','€ 21,00'], desc:'Tomatensaus, emmental, mozzarella, ham, champignons, geitenkaas, provolone, gerookt spek, olijven, oregano' },
+      { name:'Pizzaiola', sizes:['€ 12,50','€ 15,00','€ 19,00'], desc:'Knoflook-aïolicrème, emmental, mozzarella, chorizo, verse champignons, olijven, oregano' },
+      { name:'Provençale', sizes:['€ 10,50','€ 12,50','€ 15,50'], desc:'Tomatensaus, verse champignons, verse uien, verse tomaten, gegrilde paprika\'s, olijven, Herbes de Provence' },
+      { name:'Vier Seizoenen', sizes:['€ 11,00','€ 13,00','€ 16,50'], desc:'Tomatensaus, emmental, mozzarella, artisjokken, verse tomaten, verse champignons, olijven, basilicum' },
+      { name:'Regina', sizes:['€ 11,00','€ 13,50','€ 17,00'], desc:'Tomatensaus, emmental, mozzarella, ham, verse champignons, olijven, oregano' },
+      { name:'Romana', sizes:['€ 11,00','€ 13,50','€ 17,00'], desc:'Tomatensaus, emmental, mozzarella, ham, olijven, oregano' },
+      { name:'Veggie', sizes:['€ 11,50','€ 14,00','€ 17,50'], desc:'Tomatensaus, emmental, mozzarella, aubergine, verse champignons, gekarameliseerde uien, gegrilde paprika\'s, knoflookolie, olijven, oregano' },
+    ]},
+    voyages: { emoji:'✈️', title:'De Reizen', supplement:true, items:[
+      { name:'Alsacienne', sizes:['€ 11,00','€ 13,50','€ 17,00'], desc:'Verse room, emmental, mozzarella, gerookt spek, gekarameliseerde uien, olijven, oregano' },
+      { name:'Andalouse', sizes:['€ 12,00','€ 14,50','€ 18,50'], desc:'Tomatensaus, emmental, mozzarella, chorizo, gegrilde paprika\'s, knoflookolie, olijven, oregano' },
+      { name:'Arménienne', sizes:['€ 12,50','€ 15,00','€ 19,00'], desc:'Tomatensaus, emmental, mozzarella, pulled beef, gekarameliseerde uien, gegrilde paprika\'s, knoflookolie, olijven, oregano' },
+      { name:'Basquaise', sizes:['€ 13,00','€ 15,50','€ 19,50'], desc:'Tomatensaus, emmental, mozzarella, kip, gekarameliseerde uien, gegrilde paprika\'s, verse champignons, knoflookolie, olijven, oregano' },
+      { name:'Catalane', sizes:['€ 13,00','€ 15,50','€ 19,50'], desc:'Tomatensaus, emmental, mozzarella, Catalaanse worst, gegrilde paprika\'s, olijven, oregano' },
+      { name:'Gersoise', sizes:['€ 13,00','€ 16,00','€ 20,00'], desc:'Verse room, emmental, mozzarella, gedroogde eendenborst, gedroogde vijgen, aardappelen, balsamicoazijn, olijven, oregano' },
+      { name:'Indienne', sizes:['€ 13,00','€ 15,50','€ 19,50'], desc:'Currycrème, emmental, mozzarella, kip, gerookt spek, aardappelen, gebakken uien, olijven, oregano' },
+      { name:'Italienne', sizes:['€ 13,00','€ 15,50','€ 19,50'], desc:'Tomatensaus, emmental, mozzarella, serranoham, verse tomaten, parmezaanschaafsel, rucola, balsamicoazijn, Herbes de Provence' },
+      { name:'Orientale', sizes:['€ 12,00','€ 14,50','€ 18,50'], desc:'Tomatensaus, emmental, mozzarella, merguez (gekruide lamsworst), gekarameliseerde uien, gegrilde paprika\'s, olijven, komijn' },
+      { name:'Stambouliote', sizes:['€ 12,50','€ 15,00','€ 19,00'], desc:'Verse room, emmental, mozzarella, kebakvlees, witte saus, gebakken uien, olijven' },
+    ]},
+    mountains: { emoji:'🏔️', title:'De Bergen', supplement:true, items:[
+      { name:'Chevrette', sizes:['€ 12,00','€ 14,50','€ 18,50'], desc:'Verse room, emmental, mozzarella, geitenkaas, honing, biologische amandelen, olijven, oregano' },
+      { name:'Montagnarde', sizes:['€ 12,50','€ 15,00','€ 19,00'], desc:'Verse room, emmental, mozzarella, serranoham, reblochon, olijven, oregano' },
+      { name:'Rustique', sizes:['€ 11,50','€ 14,00','€ 17,50'], desc:'Verse room, emmental, mozzarella, ham, verse champignons, camembert, olijven, oregano' },
+      { name:'Tartif\'', sizes:['€ 13,00','€ 16,00','€ 20,00'], desc:'Verse room, emmental, mozzarella, aardappelen, gekarameliseerde uien, gerookte spekblokjes, reblochon, olijven, oregano' },
+    ]},
+    maritime: { emoji:'🌊', title:'De Maritieme', supplement:true, items:[
+      { name:'Collioure', sizes:['€ 12,50','€ 15,00','€ 19,00'], desc:'Tomatensaus, emmental, mozzarella, ansjovisfilets, gegrilde paprika\'s, knoflookolie, olijven, oregano' },
+      { name:'Neptune', sizes:['€ 11,50','€ 14,00','€ 17,50'], desc:'Tomatensaus, emmental, mozzarella, geflakte tonijn, knoflookolie, olijven, oregano' },
+      { name:'Nordique', sizes:['€ 13,00','€ 15,50','€ 19,50'], desc:'Verse room, emmental, mozzarella, gerookte zalm, olijven, basilicum' },
+    ]},
+    kids: { emoji:'👶', title:'La Casa Kids (onder 12 jaar)', items:[
+      { name:'Kindermenu', price:'€ 10,00', desc:'Pizza 26 cm (Regina, Romana of Margherita) + 1 Capri-Sun (20cl) + 1 Fruitknijpzakje' },
+    ]},
+    panipizzas: { emoji:'🥪', title:'Panipizzas (Panini / Pizzadeeg)', items:[
+      { name:'Cannibale', price:'€ 11,50', desc:'Tomatensaus, emmental, mozzarella, ham, kipfilet, gebakken uien, oregano' },
+      { name:'Principessa', price:'€ 10,00', desc:'Tomatensaus, emmental, mozzarella, ham, olijven, oregano' },
+      { name:'Scandinave', price:'€ 11,50', desc:'Verse room, emmental, mozzarella, gerookte zalm, knoflookolie, oregano' },
+      { name:'Savoyarde', price:'€ 10,50', desc:'Verse room, emmental, mozzarella, gerookte spekblokjes, gekarameliseerde uien, reblochon' },
+      { name:'Serrano', price:'€ 11,00', desc:'Tomatensaus, emmental, mozzarella, serranoham, geitenkaas, knoflookolie, Herbes de Provence' },
+      { name:'4 Kazen', price:'€ 11,00', desc:'Tomatensaus, emmental, mozzarella, geitenkaas, provolone' },
+    ]},
+    empanapizzas: { emoji:'🥟', title:'Empanapizzas (Empanadas / Pizzadeeg)', note:'Geserveerd met een kleine groene salade', items:[
+      { name:'La Criolla', price:'€ 12,50', desc:'Chimichurrisaus, rundergehakt, gekarameliseerde uien, rode paprika, zwarte olijven, roerei, geraspte kaas, komijn, paprikapoeder, gebakken uien' },
+      { name:'La Pampas', price:'€ 12,50', desc:'Verse room, geroosterde kip, gekarameliseerde uien, rode paprika, rozijnen, geraspte kaas, geroosterde amandelen, Jalapeños (optioneel)' },
+      { name:'La Tierra Verde', price:'€ 11,50', desc:'Pestosaus, verkruimelde geitenkaas, courgette, champignons, gekarameliseerde uien, verse tomaten, geraspte kaas, zonnebloempitten' },
+      { name:'La Patagonia', price:'€ 12,00', desc:'Tomatensaus, chorizo, aardappelen, gekarameliseerde uien, geraspte kaas, gerookte scamorza' },
+      { name:'La Mar Azul', price:'€ 12,50', desc:'Tomatensaus, geflakte tonijn, roerei, geraspte kaas, zwarte olijven, scheutje citroencrème, kappertjes' },
+    ]},
+    desserts: { emoji:'🍰', title:'Om Af Te Sluiten', items:[
+      { name:'Zoete Pizza Appel/Kaneel', sizes:['€ 10,00','€ 11,50','€ 14,50'], desc:'' },
+      { name:'Zoete Pizza Banaan/Chocolade', sizes:['€ 10,00','€ 11,50','€ 14,50'], desc:'' },
+      { name:'Tiramisu', price:'€ 4,00', desc:'' },
+      { name:'IJsdessert', price:'€ 6,00', desc:'' },
+      { name:'Huisgemaakt Dessert', price:'€ 5,00', desc:'' },
+      { name:'Magnum of Cornetto (alleen zomer)', price:'€ 4,00', desc:'' },
+    ]},
+    drinks: { emoji:'🥤', title:'Dranken', items:[
+      { name:'Frisdranken 33 cl', price:'€ 2,00', desc:'Cola, Cola Zero, Cherry, Sprite, Orangina, Fanta, San Pellegrino, Oasis, Fuze Tea' },
+      { name:'Fles frisdrank', price:'€ 3,50', desc:'' },
+      { name:'Wijnfles 75 cl', price:'€ 12,00', desc:'Rood, Wit of Rosé' },
+      { name:'Glas Wijn', price:'€ 2,50', desc:'' },
+      { name:'Super Bock 33cl (Portugees Lager)', price:'€ 3,00', desc:'' },
+      { name:'Kiara of Pietra 33cl (Corsicaans Amber)', price:'€ 5,00', desc:'' },
+      { name:'Fieldsgold 33cl (Frans Tarwebier)', price:'€ 5,00', desc:'' },
+      { name:'Kiara IPA 33cl (Aromatisch)', price:'€ 5,00', desc:'' },
+      { name:'Moretti 33cl (Italiaans Lager)', price:'€ 5,00', desc:'' },
+    ]}
+  }
+};
+
+const SUPPLEMENT_TEXT = {
+  fr: 'Tailles : 26cm / 33cm / 40cm · Supplément pâte épaisse : +1,50€ / +2,50€ / +3,50€',
+  en: 'Sizes: 26cm / 33cm / 40cm · Thick crust supplement: +€1.50 / +€2.50 / +€3.50',
+  es: 'Tamaños: 26cm / 33cm / 40cm · Suplemento masa gruesa: +1,50€ / +2,50€ / +3,50€',
+  de: 'Größen: 26cm / 33cm / 40cm · Aufpreis dicker Boden: +1,50€ / +2,50€ / +3,50€',
+  it: 'Taglie: 26cm / 33cm / 40cm · Supplemento pasta spessa: +1,50€ / +2,50€ / +3,50€',
+  nl: 'Maten: 26cm / 33cm / 40cm · Toeslag dikke bodem: +€1,50 / +€2,50 / +€3,50',
+};
+
+const SIZE_LABELS = {
+  fr: ['26cm','33cm','40cm'], en: ['26cm','33cm','40cm'], es: ['26cm','33cm','40cm'],
+  de: ['26cm','33cm','40cm'], it: ['26cm','33cm','40cm'], nl: ['26cm','33cm','40cm'],
+};
+
+let currentLang = 'fr';
+
+function setLang(lang) {
+  currentLang = lang;
+  document.getElementById('lang-screen').style.display = 'none';
+  document.getElementById('menu-page').style.display = 'block';
+  document.getElementById('current-flag').textContent = LANGS[lang].flag;
+  buildLangSwitcher(lang);
+  buildMenu(lang);
+}
+
+function buildLangSwitcher(active) {
+  const el = document.getElementById('lang-switcher');
+  el.innerHTML = Object.entries(LANGS).map(([code, l]) =>
+    `<div class="lang-pill ${code===active?'active':''}" onclick="switchLang('${code}')">
+      <span class="lang-pill-flag">${l.flag}</span>
+      <span class="lang-pill-name">${l.name}</span>
+    </div>`
+  ).join('');
+}
+
+function switchLang(lang) {
+  currentLang = lang;
+  document.getElementById('current-flag').textContent = LANGS[lang].flag;
+  buildLangSwitcher(lang);
+  buildMenu(lang);
+  document.getElementById('menu-page').scrollTop = 0;
+}
+
+function buildMenu(lang) {
+  const data = MENU[lang];
+  const content = document.getElementById('menu-content');
+  const ORDER = ['starters','classics','voyages','mountains','maritime','kids','panipizzas','empanapizzas','desserts','drinks'];
+  let html = '';
+  ORDER.forEach((key, idx) => {
+    const cat = data[key];
+    if (!cat) return;
+    html += `<div class="category">
+      <div class="cat-header" onclick="toggleCat('cat-${key}')">
+        <span class="cat-emoji">${cat.emoji}</span>
+        <span class="cat-title">${cat.title}</span>
+        <span class="cat-toggle open" id="toggle-${key}">▾</span>
+      </div>
+      <div class="cat-divider"></div>`;
+    if (cat.supplement) {
+      html += `<div class="supplement-note">${SUPPLEMENT_TEXT[lang]}</div>`;
+    }
+    if (cat.note) {
+      html += `<div class="section-note">${cat.note}</div>`;
+    }
+    html += `<div class="cat-items" id="cat-${key}">`;
+    cat.items.forEach(item => {
+      html += `<div class="menu-item">
+        <div class="item-header">
+          <span class="item-name">${item.name}</span>
+          ${item.price ? `<span class="item-price">${item.price}</span>` : ''}
+        </div>
+        ${item.desc ? `<div class="item-desc">${item.desc}</div>` : ''}
+        ${item.sizes ? `<div class="sizes-row">
+          ${item.sizes.map((p,i) => `<div class="size-tag">${SIZE_LABELS[lang][i]} <span>${p}</span></div>`).join('')}
+        </div>` : ''}
+      </div>`;
+    });
+    html += `</div></div>`;
+  });
+  content.innerHTML = html;
+}
+
+function toggleCat(id) {
+  const el = document.getElementById(id);
+  const key = id.replace('cat-','');
+  const toggle = document.getElementById('toggle-'+key);
+  if (el.style.maxHeight && el.style.maxHeight !== '0px') {
+    el.style.maxHeight = '0px';
+    toggle.classList.remove('open');
+  } else {
+    el.style.maxHeight = el.scrollHeight + 'px';
+    toggle.classList.add('open');
+  }
+}
+
+function goBack() {
+  document.getElementById('menu-page').style.display = 'none';
+  document.getElementById('lang-screen').style.display = 'flex';
+}
+
+// Init all cats open
+function openAllCats() {
+  document.querySelectorAll('.cat-items').forEach(el => {
+    el.style.maxHeight = 'none';
+  });
+}
+</script>
+</body>
+</html>
